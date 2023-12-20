@@ -1,13 +1,15 @@
-import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import Screen from '../components/Screen'
 import { BG_COLOR, TEXT_COLOR, THEME_COLOR, THEME_COLOR2 } from '../utils/Colors'
 import CustomTextInput from '../components/CustomTextInput'
 import Icon from 'react-native-vector-icons/Feather'
 import LinearGradient from 'react-native-linear-gradient'
+import { useNavigation } from '@react-navigation/native'
 import Loader from '../components/Loader'
 
 const LoginScreen = () => {
+  const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [badEmail, setBadEmail] = useState('');
@@ -88,6 +90,10 @@ const LoginScreen = () => {
             <Text style={styles.btnText}>Login</Text>
           </TouchableOpacity>
         </LinearGradient>
+        <Pressable onPress={() => navigation.navigate('SignUp')} style={styles.signUpText}>
+          <Text>Create New Account?</Text>
+          <Text style={styles.signUp}>Sign Up</Text>
+        </Pressable>
         <Loader visible={loading} />
       </View>
     </Screen>
@@ -131,5 +137,19 @@ const styles = StyleSheet.create({
     color: 'red',
     marginLeft: 50,
     marginTop: 5
+  },
+  signUpText: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 18,
+    alignSelf: 'center',
+    marginTop: 40,
+    fontWeight: '500',
+  },
+  signUp: {
+    color: THEME_COLOR,
+    fontWeight: '700',
+    marginLeft: 10
   }
 })

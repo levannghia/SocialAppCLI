@@ -27,6 +27,7 @@ const CustomTextInput = ({mt, placeholder, onChangeText, isValid, keyBoardType, 
         }}
         style={{color: '#9e9e9e'}}
         placeholder={placeholder}
+        keyboardType={keyBoardType ? keyBoardType : 'default'}
       />
     </View>
   )
