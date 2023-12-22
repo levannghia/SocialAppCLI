@@ -7,8 +7,12 @@ import Icon from 'react-native-vector-icons/Feather'
 import LinearGradient from 'react-native-linear-gradient'
 import { useNavigation } from '@react-navigation/native'
 import Loader from '../components/Loader'
+import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { setAuthData } from '../redux/AuthSlice'
 
 const LoginScreen = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -36,10 +40,10 @@ const LoginScreen = () => {
     if (password == '') {
       isValid = false;
       setBadPassword('Please enter password');
-    } else if (password != '' && password.length < 8) {
+    } else if (password != '' && password.length < 6) {
       setBadPassword('Please enter min 8 character password');
       isValid = false
-    } else if (password != '' && password.length > 7) {
+    } else if (password != '' && password.length > 5) {
       setBadPassword('');
       isValid = true;
     }
@@ -47,8 +51,25 @@ const LoginScreen = () => {
     return isValid;
   }
 
-  const login = () => {
-    setLoading(true)
+  const login = async () => {
+    try {
+      setLoading(true)
+      const { data } = await axios.post('https://testlrv.praz.vn/api/auth/login', {
+      email: email,
+      password: password,
+    })
+
+    if(data){
+      console.log(data);
+      dispatch(setAuthData(data));
+      navigation.navigate('Main')
+    }
+
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
